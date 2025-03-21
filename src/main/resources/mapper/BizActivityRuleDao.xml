@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.activity.rule.mapper.BizActivityRuleDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.activity.rule.pojo.po.BizActivityRulePo">
+        <id column="activity_rule_key" property="activityRuleKey" />
+        <result column="act_type" property="actType" />
+        <result column="rule_code" property="ruleCode" />
+        <result column="rule_value" property="ruleValue" />
+        <result column="act_key" property="actKey" />
+        <result column="rule_key" property="ruleKey" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user_key" property="createUserKey" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user_key" property="updateUserKey" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        activity_rule_key, act_type, rule_code,  rule_value, activity_key, rule_key, is_delete, create_time, create_user_key, update_time, update_user_key, remark
+    </sql>
+    <select id="findRuleDetailVOS" resultType="com.activity.rule.pojo.vo.ActRuleDetailVO">
+        select r.rule_key as ruleKey,c.rule_name as ruleName,c.rule_desc as ruleDesc,r.act_type as actType,r.rule_value as ruleValue,
+        r.rule_code as ruleCode
+        from biz_activity_rule r left join biz_activity_rule_config c on r.rule_key = c.rule_key
+        where r.act_key = #{actKey}
+        <if test="ruleCode != null and ruleCode !=''">
+            and r.rule_code = #{ruleCode}
+        </if>
+    </select>
+</mapper>
